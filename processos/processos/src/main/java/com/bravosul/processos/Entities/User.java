@@ -5,6 +5,12 @@ public class User {
   private String type;
   private String name;
 
+  public User(String cod, String type, String name) {
+    this.cod = cod;
+    this.type = type;
+    this.name = name;
+  }
+
   public String getCod() {
     return this.cod;
   }
