@@ -16,8 +16,7 @@ public class UserService {
   @Autowired
   public UserRepository repository;
 
-  public UserService(UserRepository repository) {
-    this.repository = repository;
+  public UserService() {
   }
 
   public List<UserDTO> list() {

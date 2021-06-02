@@ -4,19 +4,20 @@ import com.bravosul.processos.DTO.UserDTO;
 
 public class RestResponseDefault {
 
-	private UserDTO user;
-	private boolean success;
-	private String error;
+	private UserDTO user = null;
+	private String success;
+	private String error = null;
 
 	public RestResponseDefault(UserDTO user, String error, String success) {
-		this.success = true;
+		this.user = null;
+		this.success = "true";
 		this.error = error;
 	}
 
 	public RestResponseDefault(UserDTO user, String error) {
 		this.user = user;
 		this.error = error;
-		this.success = error == null ? true : false;
+		this.success = error == null ? "true" : "false";
 	}
 
 	public UserDTO getUser() {
@@ -35,11 +36,11 @@ public class RestResponseDefault {
 		this.error = error;
 	}
 
-	public boolean getSuccess() {
+	public String getSuccess() {
 		return success;
 	}
 
-	public void setSuccess(boolean success) {
+	public void setSuccess(String success) {
 		this.success = success;
 	}
 

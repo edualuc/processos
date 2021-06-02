@@ -14,7 +14,13 @@ public class UserDTO implements Serializable, Cloneable {
   }
   
   public UserDTO (Integer userId) {
-    this.id = Optional.ofNullable(userId);
+    setId(userId);
+  }
+  
+  public UserDTO (Integer userId, String name, String type) {
+    setId(userId);
+    setName(name);
+    setType(type);
   }
   
   public UserDTO (User userParam) {
@@ -57,5 +63,10 @@ public class UserDTO implements Serializable, Cloneable {
   }
   public void setName(String name) {
     this.name = Optional.ofNullable(name);
+  }
+
+  @Override
+  public String toString() {
+    return "UserDTO:" + id + " | " + name + " | " + type;
   }
 }
