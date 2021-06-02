@@ -27,7 +27,7 @@ const Login = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
-  const path = selected?.type === 'Admin'
+  const path = selected?.type === 'admin'
     ? 'usuarios'
     : selected?.type === 'processo'
         ? 'processos'

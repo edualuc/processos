@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container } from 'reactstrap';
+import Link from 'next/link';
+import { Button, Container } from 'reactstrap';
 
 import styled from 'styled-components';
 import Footer from '../components/Footer';
@@ -38,6 +39,7 @@ const HeaderBody = styled.div`
   height: 100%;
   > h1 {
     margin-right: 15px;
+    font-weight: 700;
   }
 `
 const Main = styled.main`
@@ -65,7 +67,9 @@ function Page({children}) {
               <li>opção 3</li>
             </ul>
           </nav> */}
-          <button type="button" onClick={() => setOpen(!open)}>Sair</button>
+          <Link href="/">
+            <Button type="button" onClick={() => setOpen(!open)}>Sair</Button>
+          </Link>
         </HeaderBody>
         <MenuMobile open={open} close={() => setOpen(false)}>
           <ul>

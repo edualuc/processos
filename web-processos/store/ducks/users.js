@@ -4,6 +4,7 @@ import { createActions, createReducer } from "reduxsauce";
  * Action types & creators
  */
 export const { Types, Creators } = createActions({
+	usersInitializer: [],
 	getUsersRequest: [],
 	getUsersSuccess: ['users'],
 	usersLoading: [],
@@ -43,16 +44,16 @@ const getUsers = (state = INITIAL_STATE, action) => {
 	return { ...state, users: action.users };
 }
 
-const setUser = (state = INITIAL_STATE, action) => {
-	return { ...state, users: action.users };
+const createUser = (state = INITIAL_STATE, action) => {
+	return { ...state };
 }
 
-const createUser = (state = INITIAL_STATE, action) => {
-	return { ...state, users: action.users };
+const setUser = (state = INITIAL_STATE, action) => {
+	return { ...state };
 }
 
 const deleteUser = (state = INITIAL_STATE, action) => {
-	return { ...state, users: action.users };
+	return { ...state };
 }
 
 const getUsersLoading = (state = INITIAL_STATE, action) => {
