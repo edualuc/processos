@@ -1,4 +1,4 @@
-package com.bravosul.processos.server;
+package com.bravosul.processos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,32 +1,49 @@
 package com.bravosul.processos.Entities;
 
+import java.util.Optional;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-  private String cod;
+
+  @Id
+  private Integer id;
   private String type;
   private String name;
 
-  public User(String cod, String type, String name) {
-    this.cod = cod;
+  User() {
+  }
+
+  public User(Integer id, String type, String name) {
+    this.id = id;
     this.type = type;
     this.name = name;
   }
 
-  public String getCod() {
-    return this.cod;
+  public User(Optional<Integer> id, Optional<String> type, Optional<String> name) {
+    this.id = id.orElse(null);
+    this.type = type.orElse(null);
+    this.name = name.orElse(null);
   }
-  public void setCod(String cod) {
-    this.cod = cod;
+
+  public Optional<Integer> getId() {
+    return Optional.ofNullable(this.id);
+  }
+  public void setId(Integer id) {
+    this.id = id;
   }
   
-  public String getType() {
-    return this.type;
+  public Optional<String> getType() {
+    return Optional.ofNullable(this.type);
   }
   public void setType(String type) {
     this.type = type;
   }
   
-  public String getName() {
-    return this.name;
+  public Optional<String> getName() {
+    return Optional.ofNullable(this.name);
   }
   public void setName(String name) {
     this.name = name;

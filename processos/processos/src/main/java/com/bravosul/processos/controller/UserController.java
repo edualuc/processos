@@ -1,0 +1,114 @@
+package com.bravosul.processos.controller;
+
+import java.util.List;
+
+import com.bravosul.processos.DTO.UserDTO;
+import com.bravosul.processos.controller.restResponse.RestResponseDefault;
+import com.bravosul.processos.service.UserService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+  
+	public static final Logger log = LoggerFactory.getLogger(UserController.class);
+
+	@Autowired
+	UserService UserService;
+
+  private final int USER = 1;
+
+  private boolean isAuthorized(int user) {
+    return user == 1 ? true : false;
+  }
+  
+
+	@GetMapping(value = "/users", produces = "application/json")
+	public ResponseEntity<List<UserDTO>> listUser() {
+    log.info("Listando users");
+
+    // if (!isAuthorized(USER)) {
+    //   return new ResponseEntity<>("Perfil não autorizado!", HttpStatus.UNAUTHORIZED);
+    // }
+    List<UserDTO> users = UserService.list();
+    
+		return new ResponseEntity<>(users, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/users/{codUser}", produces = "application/json")
+	public ResponseEntity<RestResponseDefault> getUser(@PathVariable("codUser") Integer codUser) {
+    log.info("Listando users com código = {}", codUser);
+
+    if (!isAuthorized(USER)) {
+      return new ResponseEntity<>(new RestResponseDefault(null, "Perfil não autorizado!"), HttpStatus.UNAUTHORIZED);
+    }
+
+    UserDTO user = UserService.getById(new UserDTO(codUser));
+    
+		return new ResponseEntity<>(new RestResponseDefault(user, null), HttpStatus.OK);
+	}
+  
+  @PostMapping(value = "/users", produces = "application/json")
+	public ResponseEntity<RestResponseDefault> createUser(@RequestBody UserDTO userParam) {
+    log.info("Criado " + this.getClass() + " objeto = {}", userParam);
+
+    try {
+      UserDTO user = UserService.create(userParam);
+      
+		  return new ResponseEntity<>(new RestResponseDefault(user, null), HttpStatus.CREATED);
+    } catch (Exception error) {
+      return new ResponseEntity<>(new RestResponseDefault(null, "Erro na criação do usuário!"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	}
+	
+  @PutMapping(value = "/users/{codUser}", produces = "application/json")
+	public ResponseEntity<RestResponseDefault> setUser(@PathVariable("codUser") Integer codUser, @RequestBody UserDTO userParam) {
+    log.info("Criado " + this.getClass() + " objeto = {}", userParam);
+
+    try {
+			userParam.setId(codUser);
+
+      UserDTO user = UserService.update(userParam);
+      
+		  return new ResponseEntity<>(new RestResponseDefault(user, null), HttpStatus.OK);
+    } catch (Exception error) {
+      return new ResponseEntity<>(new RestResponseDefault(null, "Erro na criação do usuário!"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	}
+	
+  @DeleteMapping(value = "/users/{codUser}", produces = "application/json")
+	public ResponseEntity<RestResponseDefault> deleteUser(@PathVariable("codUser") Integer codUser) {
+    log.info("Criado " + this.getClass() + " objeto = {}", codUser);
+
+    try {
+      boolean success = UserService.delete(new UserDTO(codUser));
+      
+		  return new ResponseEntity<>(new RestResponseDefault(null, null, statusDelete(success)), HttpStatus.OK);
+    } catch (Exception error) {
+      return new ResponseEntity<>(new RestResponseDefault(null, statusDelete(false), null), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	}
+
+	private String statusDelete(boolean success) {
+		if (success) {
+			return "Deletado com successo";
+		}
+		return "Erro ao deletar";
+	}
+
+}
+
+// @RequestHeader("Authorization") String authorization,
+// @RequestBody(required = false) String requestBody,
+// @RequestParam(value = "name", defaultValue = "World") String name

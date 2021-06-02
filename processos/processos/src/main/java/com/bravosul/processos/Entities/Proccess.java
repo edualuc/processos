@@ -1,5 +1,7 @@
 package com.bravosul.processos.Entities;
 
+import java.util.List;
+
 public class Proccess {
   
   private String cod;

@@ -1,56 +1,61 @@
 package com.bravosul.processos.DTO;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.Optional;
 
 import com.bravosul.processos.Entities.User;
 
-public class UserDTO implements Serializable {
-  private String cod;
-  private String type;
-  private String name;
+public class UserDTO implements Serializable, Cloneable {
+  private Optional<Integer> id;
+  private Optional<String> type;
+  private Optional<String> name;
 
   public UserDTO () {
   }
   
-  public UserDTO (String userCod) {
-    this.cod = userCod;
-  }
-  
-  public UserDTO (Map<String,String> valuesUser) {
-    this.cod = valuesUser.get("cod");
-    this.type = valuesUser.get("type");
-    this.name = valuesUser.get("name");
+  public UserDTO (Integer userId) {
+    this.id = Optional.ofNullable(userId);
   }
   
   public UserDTO (User userParam) {
-    this.cod = userParam.getCod();
+    fromUser(userParam);
+  }
+
+  public UserDTO (Optional<User> userParam) {
+    if(userParam.isPresent()) {
+      User userPresent = userParam.get();
+      fromUser(userPresent);
+    }
+  }
+  
+  private void fromUser(User userParam) {
+    this.id = userParam.getId();
     this.type = userParam.getType();
     this.name = userParam.getName();
   }
   
   public User toUser() {
-    return new User(cod, type, name);
+    return new User(id, type, name);
   }
 
-  public String getCod() {
-    return this.cod;
+  public Optional<Integer> getId() {
+    return this.id;
   }
-  public void setCod(String cod) {
-    this.cod = cod;
+  public void setId(Integer id) {
+    this.id = Optional.ofNullable(id);
   }
   
-  public String getType() {
+  public Optional<String> getType() {
     return this.type;
   }
   public void setType(String type) {
-    this.type = type;
+    this.type = Optional.ofNullable(type);
   }
   
-  public String getName() {
+  public Optional<String> getName() {
     return this.name;
   }
   public void setName(String name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
   }
 }
