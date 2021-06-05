@@ -1,17 +1,24 @@
 package com.bravosul.processos.Entities;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "user")
 public class User {
 
   @Id
   private Integer id;
   private String type;
   private String name;
+
+  @OneToMany(mappedBy = "createdAt")
+  private List<Process> proccess;
 
   User() {
   }
