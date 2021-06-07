@@ -3,7 +3,7 @@ package com.bravosul.processos.controller;
 import java.util.List;
 
 import com.bravosul.processos.DTO.UserDTO;
-import com.bravosul.processos.controller.restResponse.RestResponseDefault;
+import com.bravosul.processos.controller.restResponse.UserRestResponseDefault;
 import com.bravosul.processos.service.UserService;
 
 import org.slf4j.Logger;
@@ -53,59 +53,59 @@ public class UserController {
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/users/{codUser}", produces = "application/json")
-	public ResponseEntity<RestResponseDefault> getUser(@PathVariable("codUser") Integer codUser) {
+	public ResponseEntity<UserRestResponseDefault> getUser(@PathVariable("codUser") Integer codUser) {
     log.info("Listando users com código = {}", codUser);
 
     if (!isAuthorized(USER)) {
-      return new ResponseEntity<>(new RestResponseDefault(null, "Perfil não autorizado!"), headers, HttpStatus.UNAUTHORIZED);
+      return new ResponseEntity<>(new UserRestResponseDefault(null, "Perfil não autorizado!"), headers, HttpStatus.UNAUTHORIZED);
     }
 
     UserDTO user = UserService.getById(new UserDTO(codUser));
     
-		return new ResponseEntity<>(new RestResponseDefault(user, null), headers, HttpStatus.OK);
+		return new ResponseEntity<>(new UserRestResponseDefault(user, null), headers, HttpStatus.OK);
 	}
   
 	@CrossOrigin(origins = "*")
   @PostMapping(value = "/users", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<RestResponseDefault> createUser(@RequestBody UserDTO userParam) {
+	public ResponseEntity<UserRestResponseDefault> createUser(@RequestBody UserDTO userParam) {
     log.info("Criado " + this.getClass() + " objeto = {}", userParam);
 
     try {
       UserDTO user = UserService.create(userParam);
       
-		  return new ResponseEntity<>(new RestResponseDefault(user, null), headers, HttpStatus.CREATED);
+		  return new ResponseEntity<>(new UserRestResponseDefault(user, null), headers, HttpStatus.CREATED);
     } catch (Exception error) {
-      return new ResponseEntity<>(new RestResponseDefault(null, "Erro na criação do usuário!"), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(new UserRestResponseDefault(null, "Erro na criação do usuário!"), headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	}
 	
 	@CrossOrigin(origins = "*")
   @PutMapping(value = "/users/{codUser}", produces = "application/json")
-	public ResponseEntity<RestResponseDefault> setUser(@PathVariable("codUser") Integer codUser, @RequestBody UserDTO userParam) {
-    log.info("Criado " + this.getClass() + " objeto = {}", userParam);
+	public ResponseEntity<UserRestResponseDefault> setUser(@PathVariable("codUser") Integer codUser, @RequestBody UserDTO userParam) {
+    log.info("Alterado " + this.getClass() + " objeto = {}", userParam);
 
     try {
 			userParam.setId(codUser);
 
       UserDTO user = UserService.update(userParam);
       
-		  return new ResponseEntity<>(new RestResponseDefault(user, null), headers, HttpStatus.OK);
+		  return new ResponseEntity<>(new UserRestResponseDefault(user, null), headers, HttpStatus.OK);
     } catch (Exception error) {
-      return new ResponseEntity<>(new RestResponseDefault(null, "Erro na criação do usuário!"), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(new UserRestResponseDefault(null, "Erro na criação do usuário!"), headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	}
 	
 	@CrossOrigin(origins = "*")
   @DeleteMapping(value = "/users/{codUser}", produces = "application/json")
-	public ResponseEntity<RestResponseDefault> deleteUser(@PathVariable("codUser") Integer codUser) {
-    log.info("Criado " + this.getClass() + " objeto = {}", codUser);
+	public ResponseEntity<UserRestResponseDefault> deleteUser(@PathVariable("codUser") Integer codUser) {
+    log.info("Deletado " + this.getClass() + " objeto = {}", codUser);
 
     try {
       boolean success = UserService.delete(new UserDTO(codUser));
       
-		  return new ResponseEntity<>(new RestResponseDefault(null, null, statusDelete(success)), headers, HttpStatus.OK);
+		  return new ResponseEntity<>(new UserRestResponseDefault(null, null, statusDelete(success)), headers, HttpStatus.OK);
     } catch (Exception error) {
-      return new ResponseEntity<>(new RestResponseDefault(null, statusDelete(false)), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(new UserRestResponseDefault(null, statusDelete(false)), headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	}
 

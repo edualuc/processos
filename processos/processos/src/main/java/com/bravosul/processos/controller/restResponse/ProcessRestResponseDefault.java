@@ -1,31 +1,31 @@
 package com.bravosul.processos.controller.restResponse;
 
-import com.bravosul.processos.DTO.UserDTO;
+import com.bravosul.processos.DTO.ProcessDTO;
 
-public class RestResponseDefault {
+public class ProcessRestResponseDefault {
 
-	private UserDTO user = null;
+	private ProcessDTO process = null;
 	private String success;
 	private String error = null;
 
-	public RestResponseDefault(UserDTO user, String error, String success) {
-		this.user = null;
+	public ProcessRestResponseDefault(ProcessDTO process, String error, String success) {
+		this.process = null;
 		this.success = "true";
 		this.error = error;
 	}
 
-	public RestResponseDefault(UserDTO user, String error) {
-		this.user = user;
+	public ProcessRestResponseDefault(ProcessDTO process, String error) {
+		this.process = process;
 		this.error = error;
 		this.success = error == null ? "true" : "false";
 	}
 
-	public UserDTO getUser() {
-		return user.getId() != null ? user : null;
+	public ProcessDTO getProcess() {
+		return process.getId() != null ? process : null;
 	}
 
-	public void setUser(UserDTO user) {
-		this.user = user;
+	public void setProcess(ProcessDTO process) {
+		this.process = process;
 	}
 
 	public String getError() {

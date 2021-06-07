@@ -44,7 +44,7 @@ public class Process {
     this.id = id;
     this.title = title;
     this.createdAt = createdAt;
-    // this.usersToOpinion = usersToOpinion;
+    this.usersToOpinion = usersToOpinion;
   }
 
   public Optional<Integer> getId() {

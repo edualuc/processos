@@ -79,6 +79,6 @@ public class ProcessDTO implements Serializable, Cloneable {
 
   @Override
   public String toString() {
-    return "ProcessDTO:" + id + " | " + createdAt.toString() + " | " + title;
+    return "ProcessDTO:" + id + " | " + title + " | " + createdAt.toString() + " | " + usersToOpinion.toString();
   }
 }
