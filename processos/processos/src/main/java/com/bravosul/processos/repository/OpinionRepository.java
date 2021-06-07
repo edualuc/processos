@@ -1,11 +1,11 @@
-// package com.bravosul.processos.repository;
+package com.bravosul.processos.repository;
 
-// import com.bravosul.processos.Entities.Opinion;
+import com.bravosul.processos.Entities.Opinion;
 
-// import org.springframework.data.repository.CrudRepository;
-// import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-// @Repository
-// public interface OpinionRepository extends CrudRepository<Opinion, Integer> {
+@Repository
+public interface OpinionRepository extends CrudRepository<Opinion, Integer> {
 
-// }
+}

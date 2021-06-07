@@ -2,22 +2,20 @@ package com.bravosul.processos.controller.restResponse;
 
 import com.bravosul.processos.DTO.ProcessDTO;
 
-public class ProcessRestResponseDefault {
+public class ProcessRestResponseDefault extends RestResponseDefault {
 
 	private ProcessDTO process = null;
-	private String success;
-	private String error = null;
 
 	public ProcessRestResponseDefault(ProcessDTO process, String error, String success) {
 		this.process = null;
-		this.success = "true";
-		this.error = error;
+		super.setSuccess("true");
+		super.setError(error);
 	}
 
 	public ProcessRestResponseDefault(ProcessDTO process, String error) {
 		this.process = process;
-		this.error = error;
-		this.success = error == null ? "true" : "false";
+		super.setSuccess(error == null ? "true" : "false");
+		super.setError(error);
 	}
 
 	public ProcessDTO getProcess() {
@@ -26,22 +24,6 @@ public class ProcessRestResponseDefault {
 
 	public void setProcess(ProcessDTO process) {
 		this.process = process;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-
-	public String getSuccess() {
-		return success;
-	}
-
-	public void setSuccess(String success) {
-		this.success = success;
 	}
 
 }
