@@ -107,11 +107,6 @@ function* initializerAsync({}) {
 	try {
 		yield put(UserCreators.usersLoading());
 		const initial = [
-			{
-				id: 101,
-				name: "Eduardo A Lucas",
-				type: 'admin'
-			},
 		]
 
 		yield put(UserCreators.createUserRequest(initial[0]));
