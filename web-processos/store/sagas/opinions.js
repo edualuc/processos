@@ -122,9 +122,9 @@ function* formMakeOpinionAsync({objOpinion, mode}) {
 		const { auth } = yield select( state => state.users);
 		const process = yield select(state => state.process.process);
 		const opinions = yield select(state => state.opinions.opinions);
-		const opinion = opinions.find(opinion => opinion.id === action.opinion?.id) || ({
+		const opinion = opinions.find(opinion => opinion.id === objOpinion?.id) || ({
 			...objOpinion,
-			process: process.find(proc => proc.usersToOpinion?.some(user => user.id === auth.id))
+			process: process.find(proc => proc.id === objOpinion.process)
 		})
 		yield put(OpinionCreators.formSelectOpinion(opinion, mode));
 

@@ -94,7 +94,7 @@ function Page({children}) {
       </Header>
       <Main>
         <Container>
-          {children}
+          {userAuth ? children : null}
         </Container>
       </Main>
       <Footer />

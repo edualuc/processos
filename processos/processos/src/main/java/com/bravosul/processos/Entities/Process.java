@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +21,7 @@ public class Process {
   // @JoinColumn(name = "created_at")
   private User createdAt;
   
-  @OneToMany
+  @ManyToMany
   private List<User> usersToOpinion;
 
   Process() {

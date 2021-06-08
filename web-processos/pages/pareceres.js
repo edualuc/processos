@@ -47,12 +47,12 @@ function Pareceres() {
     description: "Descrição",
   }
 
-  const dataTable = process.filter(proc => proc.usersToOpinion?.some(user => user.id === auth.id)).map(proc => (
+  const dataTable = process.filter(proc => proc.usersToOpinion?.some(user => user.id === auth?.id)).map(proc => (
     {
       process: proc.id,
       processTitle: proc.title,
-      id:          opinions.some(opinion => opinion.process.id === proc.id) ? opinions.find(opinion => opinion.process.id === proc.id)['id'] : '',
-      description: opinions.some(opinion => opinion.process.id === proc.id) ? opinions.find(opinion => opinion.process.id === proc.id)['description'] : '',
+      id:          opinions.some(opinion => opinion.process.id === proc.id && opinion.user.id === auth?.id) ? opinions.find(opinion => opinion.process.id === proc.id)['id'] : '',
+      description: opinions.some(opinion => opinion.process.id === proc.id && opinion.user.id === auth?.id) ? opinions.find(opinion => opinion.process.id === proc.id)['description'] : '',
     }
   ))
 

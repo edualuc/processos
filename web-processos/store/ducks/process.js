@@ -68,7 +68,7 @@ const formSetEmpty = (state = INITIAL_STATE, action) => {
 const formSelectProcess = (state = INITIAL_STATE, action) => {
 	return { ...state, selectForm: {
 		mode: action.mode,
-		process: state.process.find(process => process.id === action.process?.id)
+		process: state.process.find(proc => proc.id === action.process?.id)
 	}};
 }
 

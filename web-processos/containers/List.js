@@ -30,7 +30,7 @@ function List({headerTable, dataTable, actions = actionsDefault, handleAction}) 
       </thead>
       <tbody>
         {dataTable?.map(datum => (
-          <Row key={datum?.id}>
+          <Row key={datum?.id || Object.values(datum)?.join('-')}>
             {Object.keys(datum).map(keyField => (
               <Column key={`column${datum[keyField].id}${keyField}`}>
                 <Field readOnly value={datum[keyField]} />
