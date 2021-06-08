@@ -15,9 +15,11 @@ export const { Types, Creators } = createActions({
 	setUserSuccess: [],
 	deleteUserRequest: ['userId'],
 	deleteUserSuccess: [],
-	setSelected: ['user'],
-	selectForm: ['user'],
-	updateForm: ['user'],
+	authenticate: ['user'],
+	formSetEmpty: ['mode'],
+	formSelectUser: ['user', 'mode'],
+	formUpdate: ['user'],
+	formClean: [],
 	cleanUsers: []
 });
 
@@ -25,19 +27,9 @@ export const { Types, Creators } = createActions({
  * Handlers
  */
 const INITIAL_STATE = {
-// 	users: [{
-// 		id: 11,
-// 		nome: 'Eduardo',
-// 		role: 'admin',
-// 	},{
-// 		id: 12,
-// 		nome: 'Luana',
-// 		role: 'processos',
-// 	},
-// ],
 	users: [],
-	selected: undefined,
-	selectedForm: undefined,
+	auth: undefined,
+	selectForm: undefined,
 };
 
 const getUsers = (state = INITIAL_STATE, action) => {
@@ -64,16 +56,33 @@ const getUsersError = (state = INITIAL_STATE, action) => {
 	return { ...state, error: action.payload };
 }
 
-const setSelected = (state = INITIAL_STATE, action) => {
-	return { ...state, selected: state.users.find(user => user.id === action.user?.id) };
+const authenticate = (state = INITIAL_STATE, action) => {
+	return { ...state, auth: state.users.find(user => user.id === action.user?.id) };
 }
 
-const selectForm = (state = INITIAL_STATE, action) => {
-	return { ...state, selectForm: state.users.find(user => user.id === action.user?.id) };
+const formClean = (state = INITIAL_STATE, action) => {
+	return { ...state, selectForm: INITIAL_STATE.selectForm};
 }
 
-const updateForm = (state = INITIAL_STATE, action) => {
-	return { ...state, selectForm: action.user };
+const formSetEmpty = (state = INITIAL_STATE, action) => {
+	return { ...state, selectForm: {
+		mode: action.mode,
+		user: {}
+	}};
+}
+
+const formSelectUser = (state = INITIAL_STATE, action) => {
+	return { ...state, selectForm: {
+		mode: action.mode,
+		user: state.users.find(user => user.id === action.user?.id)
+	}};
+}
+
+const formUpdate = (state = INITIAL_STATE, action) => {
+	return { ...state, selectForm: {
+		...state.selectForm,
+		user: action.user
+	}};
 }
 
 const cleanUsers = (state = INITIAL_STATE, action) => {
@@ -90,8 +99,10 @@ export default createReducer(INITIAL_STATE, {
 	[Types.CREATE_USER_SUCCESS]: createUser,
 	[Types.SET_USER_SUCCESS]: setUser,
 	[Types.DELETE_USER_SUCCESS]: deleteUser,
-	[Types.SET_SELECTED]: setSelected,
-	[Types.SELECT_FORM]: selectForm,
-	[Types.UPDATE_FORM]: updateForm,
+	[Types.AUTHENTICATE]: authenticate,
+	[Types.FORM_SET_EMPTY]: formSetEmpty,
+	[Types.FORM_SELECT_USER]: formSelectUser,
+	[Types.FORM_UPDATE]: formUpdate,
+	[Types.FORM_CLEAN]: formClean,
 	[Types.CLEAN_USERS]: cleanUsers
 });

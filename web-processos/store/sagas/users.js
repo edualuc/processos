@@ -1,4 +1,4 @@
-import { takeLatest, put, call, select, takeEvery } from "redux-saga/effects";
+import { takeLatest, put, call, all, takeEvery } from "redux-saga/effects";
 
 import { Creators as UserCreators } from '../ducks/users'
 
@@ -6,7 +6,6 @@ import axios from '../../config/axios'
 
 const getUsersFromApi = async () => {
 	const { data } = await axios.get('users');
-	console.log('api.getUsersFromApi', data);
 	if (data) {
 		return data;
 	}
@@ -15,7 +14,6 @@ const getUsersFromApi = async () => {
 
 const createUsersFromApi = async (user) => {
 	const { data } = await axios.post('users', user);
-	console.log('api.createUsersFromApi', data);
 	if (data) {
 		return data;
 	}
@@ -24,7 +22,6 @@ const createUsersFromApi = async (user) => {
 
 const setUsersFromApi = async (user) => {
 	const { data } = await axios.put(`users/${user.id}`, user);
-	console.log('api.setUsersFromApi', data);
 	if (data) {
 		return data;
 	}
@@ -33,7 +30,6 @@ const setUsersFromApi = async (user) => {
 
 const deleteUsersFromApi = async (userId) => {
 	const { data } = await axios.delete(`users/${userId}`);
-	console.log('api.deleteUsersFromApi', data);
 	if (data) {
 		return data;
 	}
@@ -42,12 +38,10 @@ const deleteUsersFromApi = async (userId) => {
 
 //generators
 function* getUsersAsync({}) {
-	console.log('getUsersAsync1')
 	try {
 		yield put(UserCreators.usersLoading());
 
 		const data = yield call(getUsersFromApi);
-		console.log('getUsersAsync2', data)
 
 		yield put(UserCreators.getUsersSuccess(data));
 	} catch (error) {
@@ -62,11 +56,12 @@ function* createUsersAsync({user}) {
 		yield put(UserCreators.usersLoading());
 
 		const data = yield call(createUsersFromApi, user);
-		console.log('createUsersAsync', data)
-		yield put(UserCreators.createUserSuccess(data));
-		console.log('createUsersAsync2', data)
 
-		yield put(UserCreators.getUsersRequest());
+		yield all([
+			put(UserCreators.createUserSuccess(data)),
+			put(UserCreators.formClean()),
+			put(UserCreators.getUsersRequest()),
+		]);
 	} catch (error) {
 		if (error) {
 			yield put(UserCreators.usersError(error));
@@ -78,9 +73,11 @@ function* setUsersAsync({user}) {
 		yield put(UserCreators.usersLoading());
 
 		const data = yield call(setUsersFromApi, user);
+		console.log('formClean',data, UserCreators.formClean , UserCreators.formClean());
 
 		yield all([
 			put(UserCreators.getUsersRequest()),
+			put(UserCreators.formClean()),
 			put(UserCreators.setUserSuccess(data)),
 		]);
 	} catch (error) {
@@ -97,6 +94,7 @@ function* deleteUsersAsync({userId}) {
 
 		yield all([
 			put(UserCreators.getUsersRequest()),
+			put(UserCreators.formClean()),
 			put(UserCreators.deleteUsersSuccess(data)),
 		]);
 	} catch (error) {
@@ -106,15 +104,14 @@ function* deleteUsersAsync({userId}) {
 	}
 }
 function* initializerAsync({}) {
-	console.log('saga.initializerAsync');
 	try {
 		yield put(UserCreators.usersLoading());
 		const initial = [
 			{
 				id: 101,
-				name: "edu1",
+				name: "Eduardo A Lucas",
 				type: 'admin'
-			}
+			},
 		]
 
 		yield put(UserCreators.createUserRequest(initial[0]));

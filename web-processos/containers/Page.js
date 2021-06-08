@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import { Button, Container } from 'reactstrap';
 
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import MenuMobile from '../components/MenuMobile';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { PATHS } from '../helpers';
 
 const Body = styled.div`
   display: flex;
@@ -50,24 +54,32 @@ const Main = styled.main`
   margin: ${({ theme }) => theme.margin.big}px 0px;
   flex: 1;
 `;
+const HeaderUser = styled.div`
+`;
 
 function Page({children}) {
+  const router = useRouter()
+
   const [open, setOpen] = useState(false);
-  console.log('open', open);
+  const { auth: userAuth } = useSelector(state => state.users)
+
+  useEffect(() => {
+    if (!userAuth) {
+      router.push(PATHS.home)
+    }
+  }, [userAuth])
+
   return (
     <Body>
       <Header>
         <HeaderBody>
           <h1>Processos</h1>
 
-          {/* <nav>
-            <ul>
-              <li>opção 1</li>
-              <li>opção 2</li>
-              <li>opção 3</li>
-            </ul>
-          </nav> */}
-          <Link href="/">
+          <HeaderUser>
+            {`Olá ${userAuth?.name}`}
+          </HeaderUser>
+
+          <Link href={PATHS.home}>
             <Button type="button" onClick={() => setOpen(!open)}>Sair</Button>
           </Link>
         </HeaderBody>

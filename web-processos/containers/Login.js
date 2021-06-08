@@ -20,18 +20,15 @@ export const UserLogin = styled.div`
 
 import { Creators as UserCreators } from '../store/ducks/users'
 import { useDispatch, useSelector } from 'react-redux';
+import { PATHS } from '../helpers';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { users, selected } = useSelector(state => state.users)
+  const { users, auth } = useSelector(state => state.users)
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
-  const path = selected?.type === 'admin'
-    ? 'usuarios'
-    : selected?.type === 'processo'
-        ? 'processos'
-        : 'procedimentos';
+  const path = PATHS[auth?.type] || '';
 
   const toggle = (event) => {
     setDropdownOpen(prevState => !prevState)
@@ -43,15 +40,14 @@ const Login = () => {
   }, [])
 
   const handleItem = (user) => {
-    console.log('handleItem', user);
-    dispatch(UserCreators.setSelected(user))
+    dispatch(UserCreators.authenticate(user))
   }
 
   return (
     <Container>
       <Dropdown isOpen={dropdownOpen} toggle={toggle}>
         <DropdownToggle caret>
-          {!selected ? 'Selecione um usuário' : `${selected.name} | ${selected.type}`}
+          {!auth ? 'Selecione um usuário' : `${auth.name} | ${auth.type}`}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem header>Usuários</DropdownItem>
@@ -61,7 +57,7 @@ const Login = () => {
         </DropdownMenu>
       </Dropdown>
       <Link href={path}>
-        <Button color="primary" disabled={!selected} type="button">Entrar</Button>
+        <Button color="primary" disabled={!auth} type="button">Entrar</Button>
       </Link>
     </Container>
   );

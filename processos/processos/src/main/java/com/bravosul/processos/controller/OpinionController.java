@@ -39,7 +39,7 @@ public class OpinionController {
   }
 
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/opinion", produces = "application/json")
+	@GetMapping(value = "/opinions", produces = "application/json")
 	public ResponseEntity<List<OpinionDTO>> listOpinion() {
     log.info("Listando opinion");
 
@@ -52,7 +52,7 @@ public class OpinionController {
 	}
 
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/opinion/{codOpinion}", produces = "application/json")
+	@GetMapping(value = "/opinions/{codOpinion}", produces = "application/json")
 	public ResponseEntity<OpinionRestResponseDefault> getOpinion(@PathVariable("codOpinion") Integer codOpinion) {
     log.info("Listando opinion com código = {}", codOpinion);
 
@@ -66,7 +66,7 @@ public class OpinionController {
 	}
   
 	@CrossOrigin(origins = "*")
-  @PostMapping(value = "/opinion", consumes = "application/json", produces = "application/json")
+  @PostMapping(value = "/opinions", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<OpinionRestResponseDefault> createOpinion(@RequestBody OpinionDTO opinionParam) {
     log.info("Criado " + this.getClass() + " objeto = {}", opinionParam);
 
@@ -80,7 +80,7 @@ public class OpinionController {
 	}
 	
 	@CrossOrigin(origins = "*")
-  @PutMapping(value = "/opinion/{codOpinion}", produces = "application/json")
+  @PutMapping(value = "/opinions/{codOpinion}", produces = "application/json")
 	public ResponseEntity<OpinionRestResponseDefault> setOpinion(@PathVariable("codOpinion") Integer codOpinion, @RequestBody OpinionDTO opinionParam) {
     log.info("Alterado " + this.getClass() + " objeto = {}", opinionParam);
 
@@ -96,7 +96,7 @@ public class OpinionController {
 	}
 	
 	@CrossOrigin(origins = "*")
-  @DeleteMapping(value = "/opinion/{codOpinion}", produces = "application/json")
+  @DeleteMapping(value = "/opinions/{codOpinion}", produces = "application/json")
 	public ResponseEntity<OpinionRestResponseDefault> deleteOpinion(@PathVariable("codOpinion") Integer codOpinion) {
     log.info("Deletado " + this.getClass() + " objeto = {}", codOpinion);
 

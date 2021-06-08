@@ -29,12 +29,13 @@ function Field({
   value,
   placeholder,
   onChange,
+  readOnly,
   ...rest
 }) {
   return (
     <div {...rest}>
       <Label>{label}</Label>
-      <Input type={type} value={value} placeholder={placeholder} onChange={onChange} />
+      <Input type={type} value={value} placeholder={placeholder} onChange={onChange} readOnly={readOnly} />
     </div>
     );
 }
