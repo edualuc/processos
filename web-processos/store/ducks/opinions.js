@@ -19,6 +19,7 @@ export const { Types, Creators } = createActions({
 	formSelectOpinion: ['opinion', 'mode'],
 	formUpdate: ['opinion'],
 	formClean: [],
+	formMakeOpinion: ['objOpinion', 'mode'],
 	cleanOpinions: []
 });
 

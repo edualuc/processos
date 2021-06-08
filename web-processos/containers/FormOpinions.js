@@ -13,7 +13,7 @@ function FormOpinions({opinion, mode}) {
   const isCreate = mode === MODES.CREATE
 
   useEffect(() => {
-    dispatch(OpinionsCreators.formUpdate({...opinion, user: auth, description: ''}));
+    dispatch(OpinionsCreators.formUpdate({description: '', ...opinion, user: auth }));
   }, [auth])
 
   const handleConfim = () => {
@@ -38,7 +38,7 @@ function FormOpinions({opinion, mode}) {
 
           <FormGroup>
             <Label for="createdAt">Referente ao Processo</Label>
-            {opinion.process && <Input value={opinion.process.title} readOnly type="text" name="process" id="process" placeholder="Processo" />}
+            {opinion.process && <Input value={opinion.process.id + ' - ' + opinion.process.title} readOnly type="text" name="process" id="process" placeholder="Processo" />}
           </FormGroup>
 
           <FormGroup>

@@ -1,4 +1,4 @@
-import { takeLatest, put, call, all, takeEvery } from "redux-saga/effects";
+import { takeLatest, put, call, all, takeEvery, select } from "redux-saga/effects";
 
 import { Creators as OpinionCreators } from '../ducks/opinions'
 
@@ -107,17 +107,30 @@ function* initializerAsync({}) {
 	try {
 		yield put(OpinionCreators.opinionsLoading());
 		const initial = [
-			{
-				id: 101,
-				name: "Eduardo A Lucas",
-				type: 'admin'
-			},
 		]
 
 		yield put(OpinionCreators.createOpinionRequest(initial[0]));
 
 	} catch (error) {
 		if (error) {
+			yield put(OpinionCreators.opinionsError(error));
+		}
+	}
+}
+function* formMakeOpinionAsync({objOpinion, mode}) {
+	try {
+		const { auth } = yield select( state => state.users);
+		const process = yield select(state => state.process.process);
+		const opinions = yield select(state => state.opinions.opinions);
+		const opinion = opinions.find(opinion => opinion.id === action.opinion?.id) || ({
+			...objOpinion,
+			process: process.find(proc => proc.usersToOpinion?.some(user => user.id === auth.id))
+		})
+		yield put(OpinionCreators.formSelectOpinion(opinion, mode));
+
+	} catch (error) {
+		if (error) {
+			console.log('formMakeOpinionAsync error', error);
 			yield put(OpinionCreators.opinionsError(error));
 		}
 	}
@@ -130,5 +143,6 @@ export function* getOpinionsWatcher() {
 	yield takeEvery("CREATE_OPINION_REQUEST", createOpinionsAsync);
 	yield takeEvery("SET_OPINION_REQUEST", setOpinionsAsync);
 	yield takeEvery("DELETE_OPINION_REQUEST", deleteOpinionsAsync);
+	yield takeEvery("FORM_MAKE_OPINION", formMakeOpinionAsync);
 }
 

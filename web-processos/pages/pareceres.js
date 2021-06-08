@@ -26,7 +26,7 @@ function Pareceres() {
 
   const handleAction = (action, opinion) => {
     if (action === 'Fazer Parecer') {
-      dispatch(CreatorsOpinions.formSelectOpinion(opinion, MODES.CREATE))
+      dispatch(CreatorsOpinions.formMakeOpinion(opinion, MODES.CREATE))
       return
     }
     if (action === 'Alterar' && opinion.id) {
@@ -42,6 +42,7 @@ function Pareceres() {
 
   const headerTable = {
     process: "Processo",
+    processTitle: "Processo Titulo",
     id: "Parecer",
     description: "Descrição",
   }
@@ -49,8 +50,9 @@ function Pareceres() {
   const dataTable = process.filter(proc => proc.usersToOpinion?.some(user => user.id === auth.id)).map(proc => (
     {
       process: proc.id,
-      id:          opinions.some(opinion => opinion.process.id === proc.id) ? opinions.find(opinion => opinion.process.id === proc.id)[id] : '',
-      description: opinions.some(opinion => opinion.process.id === proc.id) ? opinions.find(opinion => opinion.process.id === proc.id)[description] : '',
+      processTitle: proc.title,
+      id:          opinions.some(opinion => opinion.process.id === proc.id) ? opinions.find(opinion => opinion.process.id === proc.id)['id'] : '',
+      description: opinions.some(opinion => opinion.process.id === proc.id) ? opinions.find(opinion => opinion.process.id === proc.id)['description'] : '',
     }
   ))
 
