@@ -33,3 +33,14 @@ Depois rode em desenvolvimento:
 ```
   yarn dev
 ```
+
+## Como usar - Perfil de usuários
+
+- Perfil de administrador
+> Permite Gerenciar Usuários.
+
+- Perfil de triador
+> Premite Gerenciar Processos.
+
+- Perfil de finalizador
+> Permite dar parecer a processos atribuidos a seu usuário.
